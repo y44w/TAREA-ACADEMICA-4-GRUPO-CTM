@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pepsi Zona - Vive el Sabor (Modificada)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Montserrat:wght@400;600;800;900&family=Noto+Sans+JP:wght@400;700;900&family=Oswald:wght@500;700&family=Poppins:wght@400;600;800&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="modified-mode">
+
+  <!-- Contenedor de burbujas / copos de nieve animadas de fondo -->
+  <div id="bubbles-container" aria-hidden="true"></div>
+  <div id="snow-container" aria-hidden="true"></div>
+
+  <!-- Barra de Navegación -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#inicio" class="logo-link" aria-label="Pepsi Inicio">
+        <svg class="pepsi-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="95" fill="#ffffff" stroke="#000000" stroke-width="8"/>
+          <path d="M 18 65 C 55 30, 145 30, 182 65 C 145 50, 55 80, 18 65 Z" fill="#E32934"/>
+          <path d="M 22 62 A 82 82 0 0 1 178 62 C 130 45, 70 78, 22 62 Z" fill="#E32934"/>
+          <path d="M 22 138 A 82 82 0 0 0 178 138 C 130 155, 70 122, 22 138 Z" fill="#004B93"/>
+          <text x="100" y="117" font-family="'Montserrat', sans-serif" font-weight="900" font-size="45" text-anchor="middle" fill="#000000" letter-spacing="-1">PEPSI</text>
+        </svg>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#productos" data-i18n="nav_products">PRODUCTOS</a>
+        <a href="#vainilla" data-i18n="nav_flavors">NUEVOS SABORES</a>
+        <a href="#zero" data-i18n="nav_zero">COLECCIÓNALAS TODAS</a>
+        <a href="#navidad" data-i18n="nav_christmas">COLECCIÓN NAVIDAD</a>
+        <button type="button" class="nav-btn-pill" id="openCustomizeNavBtn" data-i18n="nav_customize">PERSONALIZACIÓN</button>
+        <button type="button" class="btn-register" id="openRegisterBtn" data-i18n="nav_register">REGÍSTRATE</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- BOTÓN FLOTANTE ANTES / DESPUÉS DE LAS MODIFICACIONES -->
+  <div class="version-switcher" id="versionSwitcher">
+    <button type="button" class="btn-version" id="toggleVersionBtn" title="Alternar entre página Antes y Después">
+      🔄 <span id="versionLabel">Ver: Después (Modificada)</span>
+    </button>
+  </div>
+
+  <!-- PANEL LATERAL DE PERSONALIZACIÓN -->
+  <aside class="customizer-drawer" id="customizerDrawer">
+    <button type="button" class="customizer-toggle" id="customizerToggle" title="Personalización">
+      ⚙️ <span data-i18n="cust_btn">Personalización</span>
+    </button>
+    <div class="customizer-body">
+      <h3 data-i18n="cust_title">Personalización</h3>
+
+      <div class="control-group row-between">
+        <label for="darkModeSwitch" data-i18n="cust_dark">Modo Nocturno</label>
+        <input type="checkbox" id="darkModeSwitch" class="toggle-switch" checked>
+      </div>
+
+      <div class="control-group">
+        <label for="langSelect" data-i18n="cust_lang">Idioma de la página</label>
+        <select id="langSelect">
+          <option value="es">Español (ES)</option>
+          <option value="en">English (EN)</option>
+          <option value="ja">日本語 (JA)</option>
+        </select>
+        <button type="button" class="btn-extra-action" id="jpLangBtn" data-i18n="btn_jp">
+          🇯🇵 Idioma Japonés (日本語)
+        </button>
+      </div>
+
+      <div class="control-group">
+        <button type="button" class="btn-extra-action snow-btn" id="snowToggleBtn" data-i18n="btn_snow">
+          ❄️ Copos de Nieve (Activar / Pausar)
+        </button>
+      </div>
+
+      <div class="control-group row-between">
+        <label for="primaryColorPicker" data-i18n="cust_primary">Color Principal</label>
+        <input type="color" id="primaryColorPicker" value="#004B93">
+      </div>
+
+      <div class="control-group row-between">
+        <label for="bgColorPicker" data-i18n="cust_bg">Color de Página</label>
+        <input type="color" id="bgColorPicker" value="#0b1120">
+      </div>
+
+      <div class="control-group row-between">
+        <label for="textColorPicker" data-i18n="cust_text">Color de Letra</label>
+        <input type="color" id="textColorPicker" value="#f3f4f6">
+      </div>
+
+      <div class="control-group">
+        <label for="fontFamilySelect" data-i18n="cust_font">Tipo de Fuente</label>
+        <select id="fontFamilySelect">
+          <option value="'Montserrat', sans-serif">Montserrat (Moderna)</option>
+          <option value="'Poppins', sans-serif">Poppins (Geométrica)</option>
+          <option value="'Oswald', sans-serif">Oswald (Condensada Impacto)</option>
+          <option value="'Roboto', sans-serif">Roboto (Clásica)</option>
+          <option value="'Fredoka', sans-serif">Fredoka (Festiva / Navidad)</option>
+          <option value="'Noto Sans JP', sans-serif">Noto Sans JP (Japonés)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="fontSizeRange">
+          <span data-i18n="cust_size">Tamaño de Letra:</span> <strong id="fontSizeValue">17px</strong>
+        </label>
+        <input type="range" id="fontSizeRange" min="14" max="24" value="17">
+      </div>
+
+      <button type="button" class="btn-reset" id="resetSettings" data-i18n="cust_reset">Restaurar valores</button>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+
+    <!-- INICIO: 4 BOTONES INTERACTIVOS CON IMÁGENES -->
+    <section id="inicio" class="section hero-section reveal active">
+      <div class="container hero-wide">
+        <div class="hero-grid">
+          <a href="#vainilla" class="ppt-btn tilt-card" aria-label="Nuevos Sabores - pepsi vainilla">
+            <img src="img/gaseosa1.jpg" alt="pepsi vainilla" onerror="this.src='https://placehold.co/420x740/d99b52/ffffff?text=gaseosa1.jpg'">
+            <span class="ppt-cta-btn" data-i18n="btn_s1">NUEVOS SABORES →</span>
+          </a>
+
+          <a href="#vainilla" class="ppt-btn tilt-card" aria-label="Vive el Sabor - pepsiazul">
+            <img src="img/gaseosa2.jpg" alt="pepsiazul" onerror="this.src='https://placehold.co/420x740/004B93/ffffff?text=gaseosa2.jpg'">
+            <span class="ppt-cta-btn" data-i18n="btn_s2">VIVE EL SABOR →</span>
+          </a>
+
+          <a href="#zero" class="ppt-btn tilt-card" aria-label="Colecciónalas Todas - pepsiblanca">
+            <img src="img/gaseosa3.jpg" alt="pepsiblanca" onerror="this.src='https://placehold.co/420x740/dcebf7/004B93?text=gaseosa3.jpg'">
+            <span class="ppt-cta-btn" data-i18n="btn_s3">COLECCIÓNALAS TODAS →</span>
+          </a>
+
+          <a href="#navidad" class="ppt-btn tilt-card" aria-label="Celebra con Pepsi - pepsis">
+            <img src="img/gaseosa4.jpg" alt="pepsis" onerror="this.src='https://placehold.co/420x740/003366/ffffff?text=gaseosa4.jpg'">
+            <span class="ppt-cta-btn" data-i18n="btn_s4">CELEBRA CON PEPSI →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN PRODUCTOS + PESTAÑA DE PRESENTACIONES, TAMAÑOS Y FORMATOS -->
+    <section id="productos" class="section catalog-section reveal">
+      <div class="container">
+        <div class="split-layout">
+          <div class="text-block">
+            <span class="eyebrow" data-i18n="s2_eyebrow">NUESTRA LÍNEA</span>
+            <h2 class="display-title">
+              <a href="#productos" class="section-btn-link" data-i18n="s2_title">Explora los sabores de Pepsi</a>
+            </h2>
+            <p class="lead-text enlarged-copy" data-i18n="s2_desc">
+              Explora los sabores de Pepsi y disfruta de nuevas experiencias. ¡Siempre hay algo nuevo por descubrir!
+            </p>
+            <div class="flavor-pills">
+              <span class="pill">Pepsi Blue</span>
+              <span class="pill">Wild Cherry</span>
+              <span class="pill">Zero Sugar</span>
+              <span class="pill">Diet Pepsi</span>
+              <span class="pill">Vanilla & Cream</span>
+              <span class="pill">Real Sugar</span>
+              <span class="pill">Pepsi 1893</span>
+            </div>
+          </div>
+          <div class="media-block media-expanded tilt-card">
+            <img src="img/slide2.jpg" alt="Colección completa de sabores Pepsi" onerror="this.src='https://placehold.co/960x580/004B93/ffffff?text=slide2.jpg'">
+          </div>
+        </div>
+
+        <!-- PESTAÑA INTERACTIVA DE PRODUCTOS: PRESENTACIONES, TAMAÑOS Y FORMATOS -->
+        <div class="product-formats-tab" id="pestana-productos">
+          <div class="formats-header">
+            <span class="badge" data-i18n="fmt_badge">PESTAÑA DE PRODUCTOS</span>
+            <h3 data-i18n="fmt_title">Presentaciones, Tamaños y Formatos Disponibles</h3>
+            <p data-i18n="fmt_sub">Consulta los formatos de Pepsi Regular y ediciones especiales según tu ocasión.</p>
+          </div>
+          <div class="formats-grid">
+            <div class="format-card">
+              <h4 data-i18n="fmt_c1_title">Formato Familiar &amp; Reuniones</h4>
+              <p class="format-sizes">3L • 2L • 1.5L</p>
+              <span class="format-tag" data-i18n="fmt_c1_desc">Botellas PET retornables y no retornables para compartir en mesa.</span>
+            </div>
+            <div class="format-card">
+              <h4 data-i18n="fmt_c2_title">Formato Personal &amp; Diario</h4>
+              <p class="format-sizes">1L • 750ml • 600ml</p>
+              <span class="format-tag" data-i18n="fmt_c2_desc">Botellas prácticas para comidas, oficina y salidas en movimiento.</span>
+            </div>
+            <div class="format-card">
+              <h4 data-i18n="fmt_c3_title">Latas &amp; Botellas Mini</h4>
+              <p class="format-sizes">355ml (Lata / PET)</p>
+              <span class="format-tag" data-i18n="fmt_c3_desc">Enfriamiento rápido y ediciones coleccionables de temporada.</span>
+            </div>
+            <div class="format-card">
+              <h4 data-i18n="fmt_c4_title">Ediciones Especiales &amp; Sabores</h4>
+              <p class="format-sizes">355ml / Vidrio 1893</p>
+              <span class="format-tag" data-i18n="fmt_c4_desc">Vanilla &amp; Cream, Zero Azúcar, Diet Pepsi y líneas temáticas.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN VAINILLA CREAM + TEMÁTICA NAVIDEÑA + NUEVO SABOR DE VERANO + RECETAS -->
+    <section id="vainilla" class="section flavor-spotlight vanilla-theme festive-bg reveal">
+      <div class="container">
+        <div class="split-layout reverse">
+          <div class="text-block glass-panel large-text-panel">
+            <span class="ribbon" data-i18n="s3_ribbon">EL CLÁSICO SABOR DE COLA... CON UNA INFUSIÓN SUAVE...</span>
+            <h2 class="section-title">
+              <a href="#vainilla" class="section-btn-link" data-i18n="s3_title">PEPSI VAINILLA CREAM</a>
+            </h2>
+            <p class="enlarged-copy" data-i18n="s3_desc">
+              Sumérgete en la armonía perfecta de nuestra cola clásica, infusionada con la riqueza aterciopelada de la crema de vainilla. Un sabor suave, cremoso y aromático que redefine tu experiencia. ¡Disfrútalo helado!
+            </p>
+            <ul class="feature-list enlarged-list">
+              <li data-i18n="s3_li1">Notas Profundas de Vainilla de Madagascar</li>
+              <li data-i18n="s3_li2">Dulzura Equilibrada</li>
+              <li data-i18n="s3_li3">Experiencia Suave y Cremosa</li>
+            </ul>
+
+            <!-- NUEVO SABOR DE TEMPORADA DE VERANO -->
+            <div class="summer-flavor-box">
+              <span class="badge red" data-i18n="summer_badge">NUEVO SABOR • TEMPORADA DE VERANO</span>
+              <h3 data-i18n="summer_title">Pepsi Tropical Citrus &amp; Sunset Splash</h3>
+              <p data-i18n="summer_desc">
+                Propuesta refrescante de verano con toque cítrico tropical, notas de piña dorada y lima fresca sobre hielo picado para los días soleados.
+              </p>
+            </div>
+
+            <div class="tagline-box" data-i18n="s3_footer">EL PLACER DE LA VAINILLA Y LA COLA. UNIDOS. PEPSI.</div>
+          </div>
+          <div class="media-block media-expanded tilt-card">
+            <img src="img/slide3.jpg" alt="Pepsi Vainilla Cream" onerror="this.src='https://placehold.co/960x600/c68b59/ffffff?text=slide3.jpg'">
+          </div>
+        </div>
+
+        <!-- SECCIÓN DE RECETAS DE BEBIDAS Y POSTRES CON PEPSI -->
+        <div class="recipes-block" id="recetas-pepsi">
+          <h3 class="recipes-heading" data-i18n="rec_heading">Recetas de Bebidas y Postres con Pepsi</h3>
+          <div class="recipes-grid">
+            <article class="recipe-card tilt-card">
+              <span class="recipe-tag" data-i18n="rec1_tag">POSTRE HELADO</span>
+              <h4 data-i18n="rec1_title">Float Clásico de Vainilla &amp; Cola</h4>
+              <p data-i18n="rec1_desc">Sirve dos bolas de helado de vainilla en un vaso alto y vierte Pepsi Vainilla Cream bien fría hasta formar espuma cremosa.</p>
+            </article>
+            <article class="recipe-card tilt-card">
+              <span class="recipe-tag" data-i18n="rec2_tag">BEBIDA REFRESCANTE</span>
+              <h4 data-i18n="rec2_title">Cola Citrus Cooler de Verano</h4>
+              <p data-i18n="rec2_desc">Mezcla hielo abundante, rodajas de naranja y limón, hojas de menta fresca y Pepsi helada para un golpe cítrico inmediato.</p>
+            </article>
+            <article class="recipe-card tilt-card">
+              <span class="recipe-tag" data-i18n="rec3_tag">POSTRE DE TEMPORADA</span>
+              <h4 data-i18n="rec3_title">Bizcocho Glaseado al Caramelo &amp; Pepsi</h4>
+              <p data-i18n="rec3_desc">Prepara un glaseado reducido con Pepsi y azúcar rubia para bañar queques o brownies tibios con brillo acaramelado.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN COLECCIÓNALAS TODAS: CARACTERÍSTICAS DE LATAS Y NOMBRES LLAMATIVOS -->
+    <section id="zero" class="section flavor-spotlight zero-theme reveal">
+      <div class="container">
+        <div class="split-layout cans-expanded-layout">
+          <div class="media-block media-expanded tilt-card">
+            <img src="img/slide4.jpg" alt="Colección de Latas Pepsi" onerror="this.src='https://placehold.co/960x600/111111/ffffff?text=slide4.jpg'">
+          </div>
+
+          <div class="text-block glass-panel cans-side-panel">
+            <span class="ribbon dark" data-i18n="s4_ribbon">COLECCIÓNALAS TODAS • SABORES DE CADA LATA</span>
+            <h2 class="section-title">
+              <a href="#zero" class="section-btn-link" data-i18n="s4_title">COLECCIÓNALAS TODAS</a>
+            </h2>
+            <p class="enlarged-copy" data-i18n="s4_desc">
+              Conoce los nombres llamativos de cada lata y las características principales de cada presentación:
+            </p>
+
+            <ul class="feature-list enlarged-list">
+              <li data-i18n="can1">Snow Frost Diet (Lata Invierno): Diseño invernal coleccionable, sabor ligero y chispa refrescante.</li>
+              <li data-i18n="can2">Golden Cream Vanilla (Lata Vainilla): Perfil cremoso y dulce equilibrado con aroma a vainilla.</li>
+              <li data-i18n="can3">Tropical Burst Blue (Lata Azul): Presentación vibrante con carácter frutal y frescura intensa.</li>
+              <li data-i18n="can4">Classic Bold Cola (Lata Clásica): Sabor original de cola, burbujas firmes y formato 355ml ideal para cualquier momento.</li>
+            </ul>
+
+            <div class="tagline-box" data-i18n="s4_footer">CADA LATA TIENE SU ESTILO. ¡COLECCIÓNALAS TODAS!</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN COLECCIÓN NAVIDAD: IMAGEN AMPLIADA, LETRA GRANDE Y FUENTE ESPECIAL -->
+    <section id="navidad" class="section promo-christmas christmas-font-section reveal">
+      <div class="container">
+        <div class="split-layout reverse">
+          <div class="text-block glass-panel christmas-text-box">
+            <span class="badge red" data-i18n="s5_ribbon">LLEVA LA MAGIA A TU MESA...</span>
+            <h2 class="section-title">
+              <a href="#navidad" class="section-btn-link" data-i18n="s5_title">COLECCIÓN NAVIDAD</a>
+            </h2>
+            <p class="highlight-promo enlarged-promo" data-i18n="s5_promo">
+              VASOS PEPSI GRATIS EN RAPPITURBO por la compra de cualquier presentación de Pepsi (Latas Coleccionables o Botella).
+            </p>
+            <p class="enlarged-copy" data-i18n="s5_desc">
+              Llévate gratis uno de los exclusivos vasos coleccionables y celebra con el sabor de siempre. Busca nuestras ediciones especiales de Diet Pepsi con divertidos personajes navideños y colecciónalos todos.
+            </p>
+            <ul class="feature-list enlarged-list">
+              <li data-i18n="s5_li1">Diseños Exclusivos Navideños ("Perú sabe mejor con Pepsi")</li>
+              <li data-i18n="s5_li2">Gratis con tus pedidos por RappiTurbo</li>
+              <li data-i18n="s5_li3">Edición Limitada — ¡Colecciónalos todos!</li>
+            </ul>
+            <small class="terms" data-i18n="s5_terms">*Aplican términos y condiciones. Promoción válida hasta agotar stock. CELEBRA EL SABOR CON PEPSI.</small>
+          </div>
+          <div class="media-block media-expanded tilt-card">
+            <img src="img/slide5.jpg" alt="Colección Navidad Pepsi en RappiTurbo" onerror="this.src='https://placehold.co/960x600/004B93/ffffff?text=slide5.jpg'">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN ZONA PEPSI (slide6.jpg) -->
+    <section id="zona" class="section zona-section reveal">
+      <div class="container center-content">
+        <span class="eyebrow" data-i18n="s6_eyebrow">ZONA PEPSI</span>
+        <h2 class="display-title">
+          <a href="#zona" class="section-btn-link" data-i18n="s6_title">Todos sabemos quién se va a destapar primero.</a>
+        </h2>
+        <div class="meme-showcase media-expanded tilt-card">
+          <img src="img/slide6.jpg" alt="Zona Pepsi" onerror="this.src='https://placehold.co/960x560/1e293b/ffffff?text=slide6.jpg'">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PESTAÑA INDEPENDIENTE DE REGISTRO ("REGÍSTRATE") -->
+  <div class="modal-backdrop" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="registerModalTitle">
+    <div class="modal-box register-standalone-box">
+      <button type="button" class="close-modal" id="closeRegisterBtn" aria-label="Cerrar registro">&times;</button>
+      <span class="badge" data-i18n="mod_badge">ZONA PEPSI • REGISTRO</span>
+      <h3 id="registerModalTitle" data-i18n="mod_title">SÉ EL PRIMERO EN ENTERARTE DE CONCIERTOS, PROMOCIONES Y EXPERIENCIAS.</h3>
+      <p class="mod-subtitle" data-i18n="mod_desc">EMPEZAMOS CON TU CORREO PARA MANTENERTE INFORMADO</p>
+      <form id="registerForm">
+        <label for="regName" class="sr-only">Nombre</label>
+        <input id="regName" type="text" placeholder="TU NOMBRE" required>
+        <label for="regEmail" class="sr-only">Correo electrónico</label>
+        <input id="regEmail" type="email" placeholder="EJ:CORREO@DIRECCIÓN.COM" required>
+        <div class="register-actions">
+          <button type="submit" class="btn-submit" data-i18n="mod_submit">SIGUIENTE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 Pepsi Zona — <span data-i18n="footer_text">Celebra el sabor con Pepsi.</span></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
